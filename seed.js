@@ -89,9 +89,9 @@ const seedMessages = (next) => {
             async.timesSeries(num_of_messages, (i, next) => {
                 new Message({
                     content: `Message ${i}`,
-                    author: (i==4)?recipient._id:sender._id,
-                    authorphone: (i==4)?recipient.phone:sender.phone,
-                    recipient: (i==4)?sender._id:recipient._id,
+                    author: (i==3)?recipient._id:sender._id,
+                    authorphone: (i==3)?recipient.phone:sender.phone,
+                    recipient: (i==3)?sender._id:recipient._id,
                     location: locations[i],
                     radius: 100,
                     isnew: true,
