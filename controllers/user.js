@@ -44,7 +44,7 @@ exports.getRegister = (req, res) => {
 //user login route
 exports.getLogin = (req, res) => {
     User.findOne({phone: req.params.phone}, (err, user) => {
-        if(err){
+        if(err || !user){
             res.send(`<?xml version="1.0" encoding="utf-8"?>
     <error>002</error>`);
         } else {
