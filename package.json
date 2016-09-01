@@ -1,0 +1,32 @@
+{
+  "name": "pinit-server",
+  "version": "1.0.0",
+  "description": "A server for PinIt App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcrlc/pinit-server.git"
+  },
+  "author": "Michael Ehrlich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcrlc/pinit-server/issues"
+  },
+  "homepage": "https://github.com/mcrlc/pinit-server#readme",
+  "dependencies": {
+    "async": "^2.0.1",
+    "body-parser": "^1.15.2",
+    "crypto": "0.0.3",
+    "dotenv": "^2.0.0",
+    "errorhandler": "^1.4.3",
+    "express": "^4.14.0",
+    "js2xmlparser": "^1.0.0",
+    "jsontoxml": "0.0.11",
+    "mongoose": "^4.5.10",
+    "request": "^2.74.0",
+    "supertest": "^2.0.0"
+  }
+}
