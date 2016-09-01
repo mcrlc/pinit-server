@@ -24,7 +24,7 @@ const locations = [
         longtitude: "34.775599"
     }
     ];
-const num_of_messages = 5;
+const num_of_messages = 3;
 
 // clear DB
 const clearDB = (next) => {
