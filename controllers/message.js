@@ -12,7 +12,7 @@ exports.getSentMessages = (req, res) => {
         if(err){
             res.send(err);
         } else {
-            res.send(arrayToXML(user.sent));
+            res.send(messagesToXML(user.sent));
         }
     });
 };
@@ -23,7 +23,7 @@ exports.getAllReceivedMessages = (req, res) => {
         if(err){
             res.send(err);
         } else {
-            res.send(arrayToXML(user.received));
+            res.send(messagesToXML(user.received));
         }
     });
 };
@@ -59,7 +59,7 @@ exports.getNewReceivedMessages = (req, res) => {
                                 if(err){
                                     res.send(err);
                                 } else {
-                                    res.send(arrayToXML(messages));
+                                    res.send(messagesToXML(messages));
                                 }
                             });
                         }
@@ -77,7 +77,8 @@ exports.getSendMessage = (req, res) => {
             res.send(err);
         } else {
             if(!recipient){
-                res.send("Recipient phone not found!");
+                res.send(`<?xml version="1.0" encoding="utf-8"?>
+    <error>003</error>`);
             } else {
                 var message = new Message({
                     content: req.query.content,
@@ -109,7 +110,8 @@ exports.getSendMessage = (req, res) => {
                                     if(err){
                                         res.send(err);
                                     } else {
-                                        res.send("Message sent");
+                                        res.send(`<?xml version="1.0" encoding="utf-8"?>
+    <success>004</success>`);
                                     }
                                 });
                             }
@@ -122,8 +124,8 @@ exports.getSendMessage = (req, res) => {
 };
 
 // message post unlock controller
-exports.postUnlockMessage = (req, res) => {
-    Message.findById(req.body.messageid, (err, message) => {
+exports.getUnlockMessage = (req, res) => {
+    Message.findById(req.params.mid, (err, message) => {
         if(err){
             res.send(err);
         } else {
@@ -146,7 +148,8 @@ exports.postUnlockMessage = (req, res) => {
                                         if(err){
                                             res.send(err);
                                         } else {
-                                            res.send("Message Unlocked");
+                                            res.send(`<?xml version="1.0" encoding="utf-8"?>
+    <success>005</success>`);
                                         }
                                     });
                                 }
@@ -174,7 +177,7 @@ function messageToXML(message){
     return xml;
 }
 
-function arrayToXML(messages){
+function messagesToXML(messages){
     var result =    `<?xml version="1.0" encoding="utf-8"?>
 <messages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/">`;
     async.eachSeries(messages, (message, callback) => {

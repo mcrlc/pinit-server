@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
+  email: String,
   phone: { type: String, unique: true },
 
   profile: {

@@ -10,8 +10,8 @@ exports.getAllUsers = (req, res) => {
         if(err){
             res.send(err);
         } else {
-            console.log(arrayToXML(users));
-            res.send(arrayToXML(users));
+            console.log(usersToXML(users));
+            res.send(usersToXML(users));
         }
     });
 };
@@ -22,8 +22,8 @@ exports.getAllMessages = (req, res) => {
         if(err){
             res.send(err);
         } else {
-            console.log(arrayToXML(messages));
-            res.send(arrayToXML(messages));
+            console.log(messagesToXML(messages));
+            res.send(messagesToXML(messages));
         }
     });
 };
@@ -44,7 +44,7 @@ function messageToXML(message){
     return xml;
 }
 
-function arrayToXML(messages){
+function messagesToXML(messages){
     var result =    `<?xml version="1.0" encoding="utf-8"?>
 <messages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/">`;
     async.eachSeries(messages, (message, callback) => {
@@ -58,6 +58,35 @@ ${messageToXML(message)}`;
         } else {
             result+=`
 </messages>`;
+        }
+    });
+    return result;
+}
+
+
+function userToXML(user){
+    var xml =  `<user>
+    <phone>${user.phone}</phone>
+    <unseenmessages>${user.unseen_messages}</unseenmessages>
+    <newmessages>${user.new_messages}</newmessages>
+</user>`;
+    return xml;
+}
+
+function usersToXML(users){
+    var result =    `<?xml version="1.0" encoding="utf-8"?>
+<users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/">`;
+    async.eachSeries(users, (user, callback) => {
+        result += `
+${userToXML(user)}`;
+        callback();
+    }, (err) => {
+        if(err){
+            console.log(err);
+            return err;
+        } else {
+            result+=`
+</users>`;
         }
     });
     return result;

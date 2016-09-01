@@ -40,8 +40,9 @@ app.get("/", mainController.index);
 
 // user routes
 app.get("/user/:phone", userController.getUser);
-app.post("/user/register", userController.postRegister);
-app.post("/user/login", userController.postLogin);
+// app.post("/user/register", userController.postRegister);
+app.get("/user/:phone/register", userController.getRegister);
+app.get("/user/:phone/login", userController.getLogin);
 
 // message routes
 app.get("/user/:uid/messages/sent", messageController.getSentMessages);
@@ -49,7 +50,8 @@ app.get("/user/:uid/messages/received", messageController.getAllReceivedMessages
 app.get("/user/:uid/messages/received/unread", messageController.getNewReceivedMessages);
 //app.post("/user/:uid/messages/new", messageController.postSendMessage);
 app.get("/user/:uid/messages/new", messageController.getSendMessage);
-app.post("/user/:uid/messages/unlock", messageController.postUnlockMessage);
+app.get("/user/:uid/messages/:mid/unlock", messageController.getUnlockMessage);
+//app.post("/user/:uid/messages/unlock", messageController.postUnlockMessage);
 
 // dev routes
 app.get("/dev/users", devController.getAllUsers);
