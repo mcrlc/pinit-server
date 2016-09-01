@@ -102,8 +102,13 @@ const seedMessages = (next) => {
                         next(err, null);
                     } else {
                         console.log(`message ${i} created!`);
-                        sender.received.push(newMessage._id);
-                        recipient.sent.push(newMessage._id);
+                        if(i==3){
+                            sender.received.push(newMessage._id);
+                            recipient.sent.push(newMessage._id);
+                        } else {
+                            sender.sent.push(newMessage._id);
+                            recipient.received.push(newMessage._id);
+                        }
                         next(null, newMessage);
                     }
                 });
