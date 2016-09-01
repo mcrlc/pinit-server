@@ -2,6 +2,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const path = require("path");
 const bodyParser = require("body-parser");
 const errorHandler = require("errorhandler");
 
@@ -26,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // connect to DB
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.connect(/*process.env.MONGODB_URI || */process.env.MONGOLAB_URI);
 mongoose.connection.on('error', () => {
   console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);

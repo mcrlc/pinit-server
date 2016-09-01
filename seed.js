@@ -4,7 +4,26 @@ const mongoose    = require("mongoose"),
     Message     = require("./models/Message");
 
     
-const num_of_users = 8;
+const num_of_users = 3;
+const numbers = [
+        "555-478-7672",
+        "555-522-8243",
+        "555-610-6679"
+    ];
+const locations = [
+    {
+        latitude: "32.063063",
+        longtitude: "34.779064"
+    },
+    {
+        latitude: "32.062727",
+        longtitude: "34.777396"
+    },
+    {
+        latitude: "32.064332",
+        longtitude: "34.775599"
+    }
+    ];
 const num_of_messages = 5;
 
 // clear DB
@@ -31,8 +50,8 @@ const clearDB = (next) => {
 const seedUsers = (next) => {
     async.timesSeries(num_of_users, (i, next) => {
         new User({
-            email: `test${i}@google.com`,
-            phone: `+97250123456${i}`,
+            email: `test${i}@gmail.com`,
+            phone: `${numbers[i]}`,
             profile: {
                 full_name: `John Smith ${i}`,
                 gender: "Male",
@@ -61,36 +80,51 @@ const seedUsers = (next) => {
 };
 
 const seedMessages = (next) => {
-    async.timesSeries(num_of_messages, (i, next) => {
-        new Message({
-            content: `Message ${i}`,
-            //author: "Developer",
-            authorphone: "+972549259096",
-            //recipient: "Test Subject",
-            location: {
-                latitude: "32.780880",
-                longtitude: "35.009538",
-            },
-            radius: 100,
-            isnew: true,
-            seen: false
-        }).save((err, newMessage) => {
-            if(err){
-                console.log(err);
-                next(err, null);
-            } else {
-                console.log(`message ${i} created!`);
-                next(null, newMessage);
-            }
+    User.findOne({phone: "555-478-7672"}, (err, sender) => {
+        User.findOne({phone: "555-522-8243"}, (err, recipient) => {
+            async.timesSeries(num_of_messages, (i, next) => {
+                new Message({
+                    content: `Message ${i}`,
+                    author: sender.id,
+                    authorphone: sender.phone,
+                    recipient: recipient._id,
+                    location: locations[i],
+                    radius: 100,
+                    isnew: true,
+                    seen: false
+                }).save((err, newMessage) => {
+                    if(err){
+                        console.log(err);
+                        next(err, null);
+                    } else {
+                        console.log(`message ${i} created!`);
+                        sender.sent.push(newMessage._id);
+                        recipient.received.push(newMessage._id);
+                        next(null, newMessage);
+                    }
+                });
+            }, (err, messages) => {
+                if(err){
+                    console.log(err);
+                    next(err);
+                } else {
+                    sender.save((err, savedSender) => {
+                        if(err){
+                            console.log(err);
+                        } else {
+                            recipient.save((err, savedRecipient) => {
+                                if(err){
+                                    console.log(err);
+                                } else {
+                                    console.log(`created ${num_of_messages} messages!`);
+                                    next();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         });
-    }, (err, messages) => {
-        if(err){
-            console.log(err);
-            next(err);
-        } else {
-            console.log(`created ${num_of_messages} messages!`);
-            next();
-        }
     });
 };
 

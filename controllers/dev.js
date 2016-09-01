@@ -16,7 +16,6 @@ exports.getAllUsers = (req, res) => {
     });
 };
 
-
 exports.getAllMessages = (req, res) => {
     Message.find({}, (err, messages) => {
         if(err){
