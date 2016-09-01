@@ -22,9 +22,13 @@ const locations = [
     {
         latitude: "32.064332",
         longtitude: "34.775599"
+    },
+    {
+        latitude: "32.065298",
+        longtitude: "34.782877"
     }
     ];
-const num_of_messages = 3;
+const num_of_messages = 4;
 
 // clear DB
 const clearDB = (next) => {
@@ -57,7 +61,7 @@ const seedUsers = (next) => {
                 gender: "Male",
                 birthday: 19901101 + i
             },
-            unseen_messages: false,
+            unseen_messages: (i==1)?true:false,
             new_messages: false
         }).save((err, newUser) => {
             if(err){
@@ -85,13 +89,13 @@ const seedMessages = (next) => {
             async.timesSeries(num_of_messages, (i, next) => {
                 new Message({
                     content: `Message ${i}`,
-                    author: sender.id,
-                    authorphone: sender.phone,
-                    recipient: recipient._id,
+                    author: (i==4)?recipient._id:sender._id,
+                    authorphone: (i==4)?recipient.phone:sender.phone,
+                    recipient: (i==4)?sender._id:recipient._id,
                     location: locations[i],
                     radius: 100,
                     isnew: true,
-                    seen: false
+                    seen: (i==1)?false:true
                 }).save((err, newMessage) => {
                     if(err){
                         console.log(err);
