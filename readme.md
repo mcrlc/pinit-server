@@ -1,3 +1,4 @@
+<h1>Pinit Server API Usage</h1>
 <h2>User Handlers:</h2>
 <h3>Registration request:</h3>
 <h4>Description:</h4>
@@ -8,7 +9,7 @@ https://pinit-server-mcrlc.c9users.io/user/<phone>/register
 ```
 <h4>Responses:</h4>
 UID if successful, 001 if user exists in DB.
-        
+<hr>
 <h3>Login request:</h3>
 <h4>Description:</h4>
 Used after getting 001 response from Registration request.
@@ -18,7 +19,7 @@ https://pinit-server-mcrlc.c9users.io/user/<phone>/login
 ```
 <h4>Responses:</h4>
 UID if successful, 002 if user doesn't exist in DB.
-    
+<hr>
 <h3>Get User Status request:</h3>
 <h4>Description:</h4>
 Used to get a user status.
@@ -33,7 +34,7 @@ https://pinit-server-mcrlc.c9users.io/user/<phone>
     <newmessages>boolean<newmessages>
 </user>
 ```
-
+<hr>
 <h2>Message Handlers:</h2>
 <h3>Get Sent Messages request:</h3>
 <h4>Description:</h4>
@@ -43,7 +44,7 @@ Returns all the messages the user has sent.
 https://pinit-server-mcrlc.c9users.io/user/<id>/messages/sent
 ```
 <h4>Response:</h4>
-        
+<hr>
 <h3>Get All Received Messages request:</h3>
 <h4>Description:</h4>
 Returns all the messages the user has received.
@@ -52,7 +53,7 @@ Returns all the messages the user has received.
 https://pinit-server-mcrlc.c9users.io/user/<id>/messages/received
 ```
 <h4>Response:</h4>
-
+<hr>
 <h3>Get Unread Messages request:</h3>
 <h4>Description:</h4>
 Returns only the unread messages the user has received.
@@ -61,7 +62,7 @@ Returns only the unread messages the user has received.
 https://pinit-server-mcrlc.c9users.io/user/<id>/messages/received/unread
 ```
 <h4>Response:</h4>
-    
+<hr>
 <h3>Send New Message request:</h3>
 <h4>Description:</h4>
 Sends a new message.
@@ -71,7 +72,7 @@ https://pinit-server-mcrlc.c9users.io/user/<id>/messages/new?phone=<recipient-ph
 ```
 <h4>Response:</h4>
 004 if successful.
-    
+<hr>
 <h3>Unlock Message request:</h3>
 <h4>Description: </h4>
 Unlocks an unseen message.
