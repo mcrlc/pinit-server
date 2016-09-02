@@ -72,7 +72,7 @@ exports.getNewReceivedMessages = (req, res) => {
 
 // messages get send controller
 exports.getSendMessage = (req, res) => {
-    User.findOne({phone: "+" + req.query.phone}, (err, recipient) => {
+    User.findOne({phone: req.query.phone}, (err, recipient) => {
         if(err){
             res.send(err);
         } else {
