@@ -4,7 +4,8 @@ const crypto = require("crypto");
 const userSchema = new mongoose.Schema({
   email: String,
   phone: { type: String, unique: true },
-
+  registered: Boolean,
+  
   profile: {
     full_name: { type: String, default: "" },
     gender: { type: String, default: "" },

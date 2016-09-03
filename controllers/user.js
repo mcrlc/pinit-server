@@ -9,6 +9,7 @@ exports.getRegister = (req, res) => {
     var user = new User({
         email: req.query.email,
         phone: req.params.phone,
+        registered: true,
         profile: {
             full_name: req.query.full_name,
             gender: req.query.gender,
