@@ -6,9 +6,9 @@ const mongoose    = require("mongoose"),
     
 const num_of_users = 3;
 const numbers = [
-        "555-478-7672",
-        "555-522-8243",
-        "555-610-6679"
+        "5554787672",
+        "5555228243",
+        "5556106679"
     ];
 const locations = [
     {
@@ -84,8 +84,8 @@ const seedUsers = (next) => {
 };
 
 const seedMessages = (next) => {
-    User.findOne({phone: "555-478-7672"}, (err, sender) => {
-        User.findOne({phone: "555-522-8243"}, (err, recipient) => {
+    User.findOne({phone: "5554787672"}, (err, sender) => {
+        User.findOne({phone: "5555228243"}, (err, recipient) => {
             async.timesSeries(num_of_messages, (i, next) => {
                 new Message({
                     content: `Message ${i}`,
@@ -137,111 +137,6 @@ const seedMessages = (next) => {
     });
 };
 
-
-/*
-// seed lists
-const seedMessages = (next) => {
-    User.find({}, (err, users) =>{
-        if(err){
-            console.log(err);
-        } else {
-            async.eachOfSeries(users, (user, i, callback) => {
-                async.timesSeries(num_of_lists, (i, next) => {
-                    new List({
-                        title: `list ${i} of user ${user.email}`,
-                        owner: user._id
-                    }).save((err, newList) => {
-                        if(err){
-                            console.log(err);
-                            next(err, null);
-                        } else {
-                            user.lists.push(newList._id);
-                            user.save((err, user) => {
-                                if(err){
-                                    console.log(err);
-                                    next(err, null);
-                                } else {
-                                    console.log(`added ${newList.title}`);
-                                    next(null, user);
-                                }
-                            });
-                        }
-                    });
-                }, (err, lists) => {
-                    if(err){
-                        console.log(err);
-                        callback(err);
-                    } else {
-                        console.log(`added ${num_of_lists} lists to user ${user.email}`);
-                        callback();
-                    }
-                });
-            }, (err) => {
-                if(err){
-                    console.log(err);
-                    next(err);
-                } else {
-                    console.log('finished adding lists!');
-                    next();
-                }
-            });
-        }
-    });
-};
-
-// seed tasks
-const seedTasks = (next) => {
-    List.find({}, (err, lists) =>{
-        if(err){
-            console.log(err);
-        } else {
-            async.eachOfSeries(lists, (list, i, callback) => {
-                async.timesSeries(num_of_tasks, (i, next) => {
-                    new Task({
-                        content: `task ${i} of ${list.title}`,
-                        author: list.owner,
-                        parent_list: list._id,
-                        done: false
-                    }).save((err, newTask) => {
-                        if(err){
-                            console.log(err);
-                            next(err, null);
-                        } else {
-                            list.tasks.push(newTask._id);
-                            list.save((err, list) => {
-                                if(err){
-                                    console.log(err);
-                                    next(err, null);
-                                } else {
-                                    console.log(`added ${newTask.content}`);
-                                    next(null, list);
-                                }
-                            });
-                        }
-                    });
-                }, (err, tasks) => {
-                    if(err){
-                        console.log(err);
-                        callback(err);
-                    } else {
-                        console.log(`added ${num_of_tasks} tasks to ${list.title}`);
-                        callback();
-                    }
-                });
-            }, (err) => {
-                if(err){
-                    console.log(err);
-                    next(err);
-                } else {
-                    console.log('finished adding tasks!');
-                    next();
-                }
-            });
-        }
-    });
-};
-*/
-
 const seedDB = () => {
     async.series([
         clearDB,
@@ -254,5 +149,5 @@ const seedDB = () => {
             console.log('DB seeded!');
         }
     });
-}
+};
 module.exports = seedDB;

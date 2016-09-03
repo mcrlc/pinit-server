@@ -4,8 +4,28 @@ const async = require("async");
 const User = require("../models/User");
 const Message = require("../models/Message");
 
-
 exports.getAllUsers = (req, res) => {
+    User.find({}, (err, users) => {
+        if(err){
+            res.send(err);
+        } else {
+            res.send(users);
+        }
+    });
+};
+
+exports.getAllMessages = (req, res) => {
+    Message.find({}, (err, messages) => {
+        if(err){
+            res.send(err);
+        } else {
+            res.send(messages);
+        }
+    });
+};
+
+
+exports.getAllUsersXML = (req, res) => {
     User.find({}, (err, users) => {
         if(err){
             res.send(err);
@@ -16,7 +36,7 @@ exports.getAllUsers = (req, res) => {
     });
 };
 
-exports.getAllMessages = (req, res) => {
+exports.getAllMessagesXML = (req, res) => {
     Message.find({}, (err, messages) => {
         if(err){
             res.send(err);

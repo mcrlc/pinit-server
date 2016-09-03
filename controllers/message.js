@@ -52,7 +52,7 @@ const sendSMS = (query) => {
             console.log(err);
         } else {
             var msg = `Hi!
-Someone has left you a message in ${res.id}.
+Someone has left you a message in this place: ${res.id}.
 Get Pinit! and view your message!`;
             clockwork.sendSms({ To: `972${query.phone}`, Content: msg}, function(error, resp) {
                 if (error) {
@@ -122,7 +122,9 @@ const sendMSG = (req, res, recipient, next) => {
 
 // messages get sent controller
 exports.getSentMessages = (req, res) => {
-    User.findById(req.params.uid).populate("sent").exec((err, user) => {
+    User.findById(req.params.uid)
+    .populate("sent")
+    .exec((err, user) => {
         if(err){
             res.send(err);
         } else {
@@ -133,49 +135,81 @@ exports.getSentMessages = (req, res) => {
 
 // messages get all received controller
 exports.getAllReceivedMessages = (req, res) => {
-    User.findById(req.params.uid).populate("received").exec((err, user) => {
+    User.findById(req.params.uid)
+        .populate("received").exec((err, user) => {
         if(err){
+            console.log(err);
             res.send(err);
         } else {
-            res.send(messagesToXML(user.received));
+            var messages = [];
+            async.each(user.received, (message, callback) => {
+                if(message.isnew){
+                    message.isnew = false;
+                    message.save((err, savedMessage) => {
+                        if(err){
+                            callback(err);
+                        } else {
+                            messages.push(message);
+                            callback();
+                        }
+                    });
+                } else {
+                    messages.push(message);
+                    callback();
+                }
+            }, (err) => {
+                if(err){
+                    console.log(err);
+                    res.send(err);
+                } else {
+                    user.new_messages = false;
+                    user.save((err, savedUser) => {
+                        if(err){
+                            console.log(err);
+                            res.send(err);
+                        } else {
+                            res.send(messagesToXML(messages));
+                        }
+                    });
+                }
+            });
         }
     });
 };
 
 // messages get new received controller
 exports.getNewReceivedMessages = (req, res) => {
-    Message.find({
-        recipient: req.params.uid,
-        isnew: true
-    }, (err, messages) => {
+    User.findById(req.params.uid)
+        .populate("received").exec((err, user) => {
         if(err){
+            console.log(err);
             res.send(err);
         } else {
-            async.each(messages, (message, callback) => {
-                message.isnew = false;
-                message.save((err, savedMessage) => {
-                    if(err){
-                        callback(err);
-                    } else {
-                        callback();
-                    }
-                });
+            var messages = [];
+            async.each(user.received, (message, callback) => {
+                if(message.isnew){
+                    message.isnew = false;
+                    message.save((err, savedMessage) => {
+                        if(err){
+                            callback(err);
+                        } else {
+                            messages.push(message);
+                            callback();
+                        }
+                    });
+                }
             }, (err) => {
                 if(err){
+                    console.log(err);
                     res.send(err);
                 } else {
-                    User.findById(req.params.uid, (err, user) => {
+                    user.new_messages = false;
+                    user.save((err, savedUser) => {
                         if(err){
+                            console.log(err);
                             res.send(err);
                         } else {
-                            user.new_messages = false;
-                            user.save((err, savedUser) => {
-                                if(err){
-                                    res.send(err);
-                                } else {
-                                    res.send(messagesToXML(messages));
-                                }
-                            });
+                            res.send(messagesToXML(messages));
                         }
                     });
                 }
@@ -264,6 +298,23 @@ exports.getUnlockMessage = (req, res) => {
                     });
                 }
             });
+        }
+    });
+};
+
+// unlock message middleware
+exports.isAuthorizedToUnlock = (req, res, next) => {
+    Message.findById(req.params.mid, (err, message) => {
+        if(err){
+            console.log("Couldn't find message");
+            res.send(err);
+        } else {
+            if(message.recipient.equals(req.params.uid)){
+                next();
+            } else {
+                res.send(`<?xml version="1.0" encoding="utf-8"?>
+    <error>006</error>`);
+            }
         }
     });
 };
