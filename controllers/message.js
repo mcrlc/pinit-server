@@ -49,7 +49,7 @@ const sendSMS = (query) => {
         key: process.env.GOOGLE_API_KEY
     }, (err, res) => {
         if(err){
-            console.olg(err);
+            console.log(err);
         } else {
             var msg = `Hi!
 Someone has left you a message in ${res.id}.
