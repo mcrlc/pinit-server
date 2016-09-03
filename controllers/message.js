@@ -108,7 +108,6 @@ const sendMSG = (req, res, recipient, next) => {
                                 console.log(err);
                                 next(err);
                             } else {
-                                console.log("success");
                                 next(`<?xml version="1.0" encoding="utf-8"?>
 <success>004</success>`);
                             }
@@ -228,12 +227,14 @@ exports.getSendMessage = (req, res) => {
 // message post unlock controller
 exports.getUnlockMessage = (req, res) => {
     Message.findById(req.params.mid, (err, message) => {
-        if(err){
-            res.send(err);
+        if(err || !message){
+            console.log("Error finding message!");
+            res.send(req.params);
         } else {
             message.seen = true;
             message.save((err, savedMessage) => {
                 if(err){
+                    console.log("Error saving message!");
                     res.send(err);
                 } else {
                     Message.find({
@@ -256,6 +257,9 @@ exports.getUnlockMessage = (req, res) => {
                                     });
                                 }
                             });
+                        } else {
+                            res.send(`<?xml version="1.0" encoding="utf-8"?>
+    <success>005</success>`);
                         }
                     });
                 }
