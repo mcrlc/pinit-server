@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // connect to DB
-mongoose.connect(/*process.env.MONGODB_URI || */process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGODB_URI/* || process.env.MONGOLAB_URI*/);
 mongoose.connection.on('error', () => {
   console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
@@ -58,8 +58,7 @@ app.get("/user/:uid/messages/:mid/unlock", messageController.getUnlockMessage);
 app.get("/dev/users", devController.getAllUsers);
 app.get("/dev/messages", devController.getAllMessages);
 
-
-seedDB();
+//seedDB();
 app.use(errorHandler());
 
 // start Express server.

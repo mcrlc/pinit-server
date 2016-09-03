@@ -1,9 +1,9 @@
 const bodyParser = require("body-parser");
 const async = require("async");
 const mongoose = require("mongoose");
-const jsontoxml = require("jsontoxml");
 const User = require("../models/User");
 const Message = require("../models/Message");
+//const clockwork = require("clockwork")({key: process.env.CLOCKWORK_API_KEY});
 
 
 // messages get sent controller
@@ -77,8 +77,20 @@ exports.getSendMessage = (req, res) => {
             res.send(err);
         } else {
             if(!recipient){
+                /*console.log(`sending to: 972${req.query.phone.replace(/-/g,"")}`);
+                clockwork.sendSms({ To: `972${req.query.phone.replace(/-/g,"")}`, Content: `Hi!
+Someone has left you a message in http://www.google.com/maps/place/${req.query.latitude},${req.query.longtitude}.
+Get Pinit! and view your message!`}, 
+                function(error, resp) {
+                    if (error) {
+                        console.log('Something went wrong', error);
+                    } else {
+                        console.log('Message sent to', resp.responses[0].to);
+                        console.log('MessageID was', resp.responses[0].id);
+                    }
+                });*/
                 res.send(`<?xml version="1.0" encoding="utf-8"?>
-    <error>003</error>`);
+    <success>003</success>`);
             } else {
                 var message = new Message({
                     content: req.query.content,

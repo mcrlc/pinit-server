@@ -20,6 +20,7 @@
   "dependencies": {
     "async": "^2.0.1",
     "body-parser": "^1.15.2",
+    "clockwork": "^0.1.4",
     "crypto": "0.0.3",
     "dotenv": "^2.0.0",
     "errorhandler": "^1.4.3",
