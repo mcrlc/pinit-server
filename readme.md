@@ -5,7 +5,7 @@
 First request upon openning the app for the first time.
 <h4>Structure:</h4>
 <code>
-https://pinit-server-mcrlc.c9users.io/user/<phone>/register
+https://hostname/user/<phone>/register
 </code>
 <h4>Responses:</h4>
 UID if successful, 001 if user exists in DB.
@@ -15,7 +15,7 @@ UID if successful, 001 if user exists in DB.
 Used after getting 001 response from Registration request.
 <h4>Structure:</h4>
 <code>
-https://pinit-server-mcrlc.c9users.io/user/<phone>/login
+https://hostname/user/<phone>/login
 </code>
 <h4>Responses:</h4>
 UID if successful, 002 if user doesn't exist in DB.
@@ -25,7 +25,7 @@ UID if successful, 002 if user doesn't exist in DB.
 Used to get a user status.
 <h4>Structure:</h4>
 <code>
-https://pinit-server-mcrlc.c9users.io/user/<phone>
+https://hostname/user/<phone>
 </code>
 <h4>Response:</h4>
 <code>
@@ -41,7 +41,7 @@ https://pinit-server-mcrlc.c9users.io/user/<phone>
 Returns all the messages the user has sent.
 <h4>Structure</h4>
 <code>
-https://pinit-server-mcrlc.c9users.io/user/<id>/messages/sent
+https://hostname/user/<id>/messages/sent
 </code>
 <h4>Response:</h4>
 <hr>
@@ -50,7 +50,7 @@ https://pinit-server-mcrlc.c9users.io/user/<id>/messages/sent
 Returns all the messages the user has received.
 <h4>Structure:</h4>
 <code>
-https://pinit-server-mcrlc.c9users.io/user/<id>/messages/received
+https://hostname/user/<id>/messages/received
 </code>
 <h4>Response:</h4>
 <hr>
@@ -59,7 +59,7 @@ https://pinit-server-mcrlc.c9users.io/user/<id>/messages/received
 Returns only the unread messages the user has received.
 <h4>Structure:</h4>
 <code>
-https://pinit-server-mcrlc.c9users.io/user/<id>/messages/received/unread
+https://hostname/user/<id>/messages/received/unread
 </code>
 <h4>Response:</h4>
 <hr>
@@ -68,7 +68,7 @@ https://pinit-server-mcrlc.c9users.io/user/<id>/messages/received/unread
 Sends a new message.
 <h4>Structure:</h4>
 <code>
-https://pinit-server-mcrlc.c9users.io/user/<id>/messages/new?phone=<recipient-phone>&latitude=<longtitude>&longtitude=<longtitude>&content=<content>&radius=100
+https://hostname/user/<id>/messages/new?phone=<recipient-phone>&latitude=<longtitude>&longtitude=<longtitude>&content=<content>&radius=100
 </code>
 <h4>Response:</h4>
 004 if successful.
@@ -78,7 +78,7 @@ https://pinit-server-mcrlc.c9users.io/user/<id>/messages/new?phone=<recipient-ph
 Unlocks an unseen message.
 <h4>Structure:</h4>
 <code>
-https://pinit-server-mcrlc.c9users.io/user/<id>/messages/<mid>/unlock
+https://hostname/user/<id>/messages/<mid>/unlock
 </code>
 <h4>Response:</h4>
 005 if successful.
